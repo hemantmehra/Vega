@@ -53,9 +53,11 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = main.cpp \
-		WebView.cpp 
+		WebView.cpp \
+		PageClient.cpp 
 OBJECTS       = main.o \
-		WebView.o
+		WebView.o \
+		PageClient.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -134,7 +136,8 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		Vega.pro  main.cpp \
-		WebView.cpp
+		WebView.cpp \
+		PageClient.cpp
 QMAKE_TARGET  = Vega
 DESTDIR       = 
 TARGET        = Vega
@@ -318,7 +321,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp WebView.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp WebView.cpp PageClient.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -368,11 +371,16 @@ compiler_clean: compiler_moc_predefs_clean
 
 ####### Compile
 
-main.o: main.cpp WebView.h
+main.o: main.cpp WebView.h \
+		PageClient.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
-WebView.o: WebView.cpp WebView.h
+WebView.o: WebView.cpp WebView.h \
+		PageClient.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o WebView.o WebView.cpp
+
+PageClient.o: PageClient.cpp PageClient.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o PageClient.o PageClient.cpp
 
 ####### Install
 
