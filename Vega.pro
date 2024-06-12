@@ -6,6 +6,9 @@ TEMPLATE = app
 TARGET = Vega
 INCLUDEPATH += .
 QT += gui widgets
+OBJECTS_DIR = build
+
+create.command = $(MKDIR) build
 
 # You can make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -15,4 +18,6 @@ QT += gui widgets
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 # Input
-SOURCES += main.cpp WebView.cpp PageClient.cpp
+SOURCES += main.cpp \
+		   WebView.cpp \
+		   LibGfx/Painter.cpp

@@ -37,7 +37,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = Vega1.0.0
-DISTDIR = /home/hemant/repos/Vega/.tmp/Vega1.0.0
+DISTDIR = /home/hemant/repos/Vega/build/Vega1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-O1
 LIBS          = $(SUBLIBS) /usr/lib/x86_64-linux-gnu/libQt5Widgets.so /usr/lib/x86_64-linux-gnu/libQt5Gui.so /usr/lib/x86_64-linux-gnu/libQt5Core.so -lGL -lpthread   
@@ -48,16 +48,16 @@ STRIP         = strip
 
 ####### Output directory
 
-OBJECTS_DIR   = ./
+OBJECTS_DIR   = build/
 
 ####### Files
 
 SOURCES       = main.cpp \
 		WebView.cpp \
-		PageClient.cpp 
-OBJECTS       = main.o \
-		WebView.o \
-		PageClient.o
+		LibGfx/Painter.cpp 
+OBJECTS       = build/main.o \
+		build/WebView.o \
+		build/Painter.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -137,7 +137,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		Vega.pro  main.cpp \
 		WebView.cpp \
-		PageClient.cpp
+		LibGfx/Painter.cpp
 QMAKE_TARGET  = Vega
 DESTDIR       = 
 TARGET        = Vega
@@ -321,7 +321,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp WebView.cpp PageClient.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp WebView.cpp LibGfx/Painter.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -371,16 +371,16 @@ compiler_clean: compiler_moc_predefs_clean
 
 ####### Compile
 
-main.o: main.cpp WebView.h \
-		PageClient.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
+build/main.o: main.cpp WebView.h \
+		LibGfx/Painter.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/main.o main.cpp
 
-WebView.o: WebView.cpp WebView.h \
-		PageClient.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o WebView.o WebView.cpp
+build/WebView.o: WebView.cpp WebView.h \
+		LibGfx/Painter.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/WebView.o WebView.cpp
 
-PageClient.o: PageClient.cpp PageClient.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o PageClient.o PageClient.cpp
+build/Painter.o: LibGfx/Painter.cpp LibGfx/Painter.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/Painter.o LibGfx/Painter.cpp
 
 ####### Install
 

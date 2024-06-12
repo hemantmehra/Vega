@@ -4,7 +4,7 @@
 #include <QPainter>
 #include <QPaintEvent>
 #include <QMainWindow>
-#include "WebView.h"
+#include <WebView.h>
 
 #define WIDTH 800
 #define HEIGHT 600

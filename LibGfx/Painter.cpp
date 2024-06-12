@@ -1,19 +1,21 @@
 #include <cmath>
-#include "PageClient.h"
+#include <LibGfx/Painter.h>
 
-PageClient::PageClient(uint8_t *bitmap, size_t width, size_t height, size_t pixelWidth)
+Painter::Painter(uint8_t *bitmap, size_t width, size_t height, size_t pixelWidth)
     : m_bitmap(bitmap), m_width(width), m_height(height), m_pixelWidth(pixelWidth)
 {
 }
 
-void PageClient::paint()
+void Painter::paint()
 {
     clear();
-    paintLine(30, 40, 200, 40);
-    paintLine(30, 400, 30, 40);
+    draw_line(30, 40, 200, 40);
+    draw_line(200, 40, 200, 400);
+    draw_line(200, 400, 30, 400);
+    draw_line(30, 400, 30, 40);
 }
 
-void PageClient::clear()
+void Painter::clear()
 {
     for (size_t x=0; x<m_width; x++)
     {
@@ -27,11 +29,11 @@ void PageClient::clear()
     }
 }
 
-void PageClient::paintLine(size_t x0, size_t y0, size_t x1, size_t y1)
+void Painter::draw_line(size_t x0, size_t y0, size_t x1, size_t y1)
 {
     // https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
 
-    if(abs(y1 - y0) < abs(x1 - x0))
+    if(abs((int)(y1 - y0)) < abs((int)(x1 - x0)))
     {
         if (x0 > x1)
             paintLineLow(x1, y1, x0, y0);
@@ -47,7 +49,7 @@ void PageClient::paintLine(size_t x0, size_t y0, size_t x1, size_t y1)
     }
 }
 
-void PageClient::paintLineLow(size_t x0, size_t y0, size_t x1, size_t y1)
+void Painter::paintLineLow(size_t x0, size_t y0, size_t x1, size_t y1)
 {
     int dx = x1 - x0;
     int dy = y1 - y0;
@@ -77,7 +79,7 @@ void PageClient::paintLineLow(size_t x0, size_t y0, size_t x1, size_t y1)
     }
 }
 
-void PageClient::paintLineHigh(size_t x0, size_t y0, size_t x1, size_t y1)
+void Painter::paintLineHigh(size_t x0, size_t y0, size_t x1, size_t y1)
 {
     int dx = x1 - x0;
     int dy = y1 - y0;

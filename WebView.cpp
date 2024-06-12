@@ -1,10 +1,10 @@
 #include <QPainter>
-#include "WebView.h"
+#include <WebView.h>
 
 WebView::WebView(size_t w, size_t h) : m_width(w), m_height(h), m_pixelwidth(3)
 {
     m_bitmap = new uchar[m_width * m_height * 3];
-    m_page_client = new PageClient(m_bitmap, m_width, m_height, m_pixelwidth);
+    m_page_client = new Painter(m_bitmap, m_width, m_height, m_pixelwidth);
 }
 
 WebView::~WebView()

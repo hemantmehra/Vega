@@ -2,7 +2,7 @@
 
 #include <QWidget>
 #include <QPaintEvent>
-#include "PageClient.h"
+#include <LibGfx/Painter.h>
 
 class WebView : public QWidget
 {
@@ -20,5 +20,5 @@ private:
     size_t m_height;
     size_t m_pixelwidth;
     uchar *m_bitmap;
-    PageClient *m_page_client;
+    Painter *m_page_client;
 };

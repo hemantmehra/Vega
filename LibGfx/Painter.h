@@ -1,14 +1,15 @@
 #pragma once
 #include <cstdint>
 #include <cstring>
+#include <math.h>
 
-class PageClient
+class Painter
 {
 public:
-    PageClient(uint8_t* bitmap, size_t width, size_t height, size_t pixelWidth);
+    Painter(uint8_t* bitmap, size_t width, size_t height, size_t pixelWidth);
     void clear();
     void paint();
-    void paintLine(size_t x0, size_t y0, size_t x1, size_t y1);
+    void draw_line(size_t x0, size_t y0, size_t x1, size_t y1);
 
 private:
     void paintLineLow(size_t x0, size_t y0, size_t x1, size_t y1);
