@@ -13,6 +13,7 @@ void Painter::paint()
     draw_line(200, 40, 200, 400);
     draw_line(200, 400, 30, 400);
     draw_line(30, 400, 30, 40);
+    draw_char('A', 100, 100);
 }
 
 void Painter::clear()
@@ -105,6 +106,24 @@ void Painter::paintLineHigh(size_t x0, size_t y0, size_t x1, size_t y1)
         }
         else {
             D = D + 2*dx;
+        }
+    }
+}
+
+void Painter::draw_char(uint8_t ch, size_t x, size_t y)
+{
+    auto bitmap = m_font.get_bitmap(ch);
+    for (size_t i = 0; i < m_font.glyph_height(); i++)
+    {
+        for (size_t j = 0; j < m_font.char_width(ch); j++)
+        {
+            if (bitmap[i] & (1 << j))
+            {
+                size_t where = ((y + i)*m_width + (x + j)) * m_pixelWidth;
+                m_bitmap[where] = 255;
+                m_bitmap[where + 1] = 0;
+                m_bitmap[where + 2] = 0;
+            }
         }
     }
 }

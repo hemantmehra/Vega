@@ -54,10 +54,12 @@ OBJECTS_DIR   = build/
 
 SOURCES       = main.cpp \
 		WebView.cpp \
-		LibGfx/Painter.cpp 
+		LibGfx/Painter.cpp \
+		LibGfx/Font.cpp 
 OBJECTS       = build/main.o \
 		build/WebView.o \
-		build/Painter.o
+		build/Painter.o \
+		build/Font.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -137,7 +139,8 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		Vega.pro  main.cpp \
 		WebView.cpp \
-		LibGfx/Painter.cpp
+		LibGfx/Painter.cpp \
+		LibGfx/Font.cpp
 QMAKE_TARGET  = Vega
 DESTDIR       = 
 TARGET        = Vega
@@ -321,7 +324,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp WebView.cpp LibGfx/Painter.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp WebView.cpp LibGfx/Painter.cpp LibGfx/Font.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -372,15 +375,21 @@ compiler_clean: compiler_moc_predefs_clean
 ####### Compile
 
 build/main.o: main.cpp WebView.h \
-		LibGfx/Painter.h
+		LibGfx/Painter.h \
+		LibGfx/Font.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/main.o main.cpp
 
 build/WebView.o: WebView.cpp WebView.h \
-		LibGfx/Painter.h
+		LibGfx/Painter.h \
+		LibGfx/Font.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/WebView.o WebView.cpp
 
-build/Painter.o: LibGfx/Painter.cpp LibGfx/Painter.h
+build/Painter.o: LibGfx/Painter.cpp LibGfx/Painter.h \
+		LibGfx/Font.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/Painter.o LibGfx/Painter.cpp
+
+build/Font.o: LibGfx/Font.cpp LibGfx/Font.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/Font.o LibGfx/Font.cpp
 
 ####### Install
 
