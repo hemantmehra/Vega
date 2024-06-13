@@ -13,7 +13,7 @@ void Painter::paint()
     draw_line(200, 40, 200, 400);
     draw_line(200, 400, 30, 400);
     draw_line(30, 400, 30, 40);
-    draw_char('A', 100, 100);
+    draw_string("Hello World!", 100, 100);
 }
 
 void Painter::clear()
@@ -125,5 +125,16 @@ void Painter::draw_char(uint8_t ch, size_t x, size_t y)
                 m_bitmap[where + 2] = 0;
             }
         }
+    }
+}
+
+void Painter::draw_string(std::string s, size_t x, size_t y)
+{
+    size_t i = x;
+    size_t j = y;
+    for (char ch : s)
+    {
+        draw_char(ch, i, j);
+        i += m_font.char_width(ch) + 1;
     }
 }
