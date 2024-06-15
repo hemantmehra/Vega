@@ -13,6 +13,7 @@ public:
     unsigned char* get_bitmap();
     int get_bitmap_rows();
     int get_bitmap_width();
+    int get_bitmap_pitch();
 
     void load_text(std::string text);
     void draw_bitmap( FT_Bitmap*  bitmap,

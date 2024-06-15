@@ -135,26 +135,27 @@ void Painter::draw_char(uint8_t ch, size_t x, size_t y)
 void Painter::draw_char2(char ch, size_t x, size_t y)
 {
     m_font2->load_char(ch);
-    auto height = m_font2->get_bitmap_rows();
+    auto rows = m_font2->get_bitmap_rows();
     auto width =  m_font2->get_bitmap_width();
+    auto pitch = m_font2->get_bitmap_pitch();
     unsigned char *bitmap = m_font2->get_bitmap();
 
-    for (size_t i = 0; i < width; i++)
+    for (size_t i = 0; i < rows; i++)
     {
-        for (size_t j = 0; j < height; j++)
+        int row_offset = y + i;
+        for (size_t j = 0; j < width; j++)
         {
-                std::cout << (int) bitmap[j + width + i] << " ";
-            if (bitmap[j + width + i])
-            {
-                size_t where = ((y + i)*m_width + (x + j)) * m_pixelWidth; 
-                m_bitmap[where] = bitmap[j + width + i];
+            unsigned char p = bitmap [i * pitch + j];
+            if (p) {
+                size_t where = ((row_offset)*m_width + (x + j)) * m_pixelWidth;
+                m_bitmap[where] = 255;
                 m_bitmap[where + 1] = 0;
                 m_bitmap[where + 2] = 0;
             }
+                // std::cout << (int) p << " ";
         }
-            std::cout << "\n";
+            // std::cout << "\n";
     }
-
 }
 
 void Painter::draw_string(std::string s, size_t x, size_t y)

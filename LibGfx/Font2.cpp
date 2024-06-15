@@ -52,6 +52,11 @@ int Font2::get_bitmap_width()
     return m_slot->bitmap.width;
 }
 
+int Font2::get_bitmap_pitch()
+{
+    return m_slot->bitmap.pitch;
+}
+
 unsigned char* Font2::get_bitmap()
 {
     return m_slot->bitmap.buffer;
