@@ -1,13 +1,20 @@
-#include "Font2.h"
 #include <iostream>
+#include <AB/Assert.h>
+#include <LibGfx/Font2.h>
+
+#define CHECK(x) ASSERT(x == 0)
 
 Font2::Font2(int target_height)
 {
-
     m_error = FT_Init_FreeType( &m_font_library );
+    CHECK(m_error);
 
     m_error = FT_New_Face( m_font_library, "/usr/share/fonts/truetype/lato/Lato-Regular.ttf", 0, &m_face );
-    m_error = FT_Set_Char_Size( m_face, 50 * 64, 0, 100, 0 );
+    CHECK(m_error);
+
+    m_error = FT_Set_Pixel_Sizes(m_face, 0, 20);
+    CHECK(m_error);
+
     m_slot = m_face->glyph;
 
     m_angle = 0;
