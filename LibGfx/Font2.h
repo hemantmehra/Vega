@@ -16,6 +16,9 @@ public:
     int get_bitmap_width();
     int get_bitmap_pitch();
     int get_advance();
+    int get_XOff();
+    int get_YOff();
+    int get_bbox_ymax();
     
     void load_text(std::string text);
     void draw_bitmap( FT_Bitmap*  bitmap,

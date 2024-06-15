@@ -21,7 +21,9 @@ void Painter::paint()
     draw_line(x, y, x + 100, x);
     draw_line(x, y, x, y + 100);
     // draw_char2('q', x, y);
-    draw_string2("HELLO", x, y);
+    draw_string2("The box", x, y);
+    int bbox_ymax = m_font2->get_bbox_ymax();
+    draw_line(x, y + bbox_ymax, x + 200, y + bbox_ymax);
 }
 
 void Painter::clear()
@@ -143,15 +145,19 @@ void Painter::draw_char2(char ch, size_t x, size_t y)
     auto width =  m_font2->get_bitmap_width();
     auto pitch = m_font2->get_bitmap_pitch();
     unsigned char *bitmap = m_font2->get_bitmap();
+    int x_off = m_font2->get_XOff();
+    int y_off = m_font2->get_YOff();
+    std::cout << "CHAR: " << ch << " X_OFF" << x_off << '\n';
+    std::cout << "CHAR: " << ch << " Y_OFF" << y_off << '\n';
 
     for (size_t i = 0; i < rows; i++)
     {
-        int row_offset = y + i;
+        int row_offset = y + i + y_off;
         for (size_t j = 0; j < width; j++)
         {
             unsigned char p = bitmap [i * pitch + j];
             if (p) {
-                size_t where = ((row_offset)*m_width + (x + j)) * m_pixelWidth;
+                size_t where = ((row_offset)*m_width + (x + j + x_off)) * m_pixelWidth;
                 m_bitmap[where] = 255;
                 m_bitmap[where + 1] = 0;
                 m_bitmap[where + 2] = 0;
@@ -181,7 +187,7 @@ void Painter::draw_string2(std::string s, size_t x, size_t y)
     for (char ch : s)
     {
         draw_char2(ch, i, j);
-        advance = m_font2->get_advance() / 64;
+        advance = m_font2->get_advance();
         std::cout << advance << '\n';
         i += advance;
     }

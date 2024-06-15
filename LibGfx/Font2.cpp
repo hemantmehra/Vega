@@ -38,7 +38,8 @@ Font2::~Font2()
 
 void Font2::load_char(char ch)
 {
-    FT_Set_Transform( m_face, &m_matrix, &m_pen );
+    // FT_Set_Transform( m_face, &m_matrix, &m_pen );
+
     m_error = FT_Load_Char(m_face, ch, FT_LOAD_RENDER);
     if (m_error)
     {
@@ -72,7 +73,28 @@ int Font2::get_bitmap_pitch()
 
 int Font2::get_advance()
 {
-    return m_face->glyph->metrics.horiAdvance;
+    return m_face->glyph->metrics.horiAdvance / 64;
+}
+
+int Font2::get_XOff()
+{
+    int bbox_ymax = m_face->bbox.yMax / 64;
+    int glyph_width = m_face->glyph->metrics.width / 64;
+    int advance = m_face->glyph->metrics.horiAdvance / 64;
+    int x_off = (advance - glyph_width) / 2;
+    return x_off;
+}
+
+int Font2::get_YOff()
+{
+    int bbox_ymax = m_face->bbox.yMax / 64;
+    int y_off = bbox_ymax - m_face->glyph->metrics.horiBearingY / 64;
+    return y_off;
+}
+
+int Font2::get_bbox_ymax()
+{
+    return m_face->bbox.yMax / 64;
 }
 
 unsigned char *Font2::get_bitmap()
