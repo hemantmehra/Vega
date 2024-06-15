@@ -23,6 +23,11 @@ Font2::Font2(int target_height)
     m_pen.y = 0;
 }
 
+Font2::~Font2()
+{
+    FT_Done_Face(m_face);
+}
+
 void Font2::load_char(char ch)
 {
     FT_Set_Transform( m_face, &m_matrix, &m_pen );

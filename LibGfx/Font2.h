@@ -8,6 +8,7 @@ class Font2
 {
 public:
     Font2(int target_height);
+    ~Font2();
     void load_char(char ch);
     void advance_pen();
     unsigned char* get_bitmap();
