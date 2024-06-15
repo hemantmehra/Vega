@@ -17,7 +17,11 @@ void Painter::paint()
     draw_line(30, 400, 30, 40);
     draw_string("Hello World!", 100, 100);
 
-    draw_char2('A', 500, 500);
+    int x = 400, y = 400;
+    draw_line(x, y, x + 100, x);
+    draw_line(x, y, x, y + 100);
+    // draw_char2('q', x, y);
+    draw_string2("HELLO", x, y);
 }
 
 void Painter::clear()
@@ -166,5 +170,19 @@ void Painter::draw_string(std::string s, size_t x, size_t y)
     {
         draw_char(ch, i, j);
         i += m_font.char_width(ch) + 1;
+    }
+}
+
+void Painter::draw_string2(std::string s, size_t x, size_t y)
+{
+    size_t i = x;
+    size_t j = y;
+    int advance;
+    for (char ch : s)
+    {
+        draw_char2(ch, i, j);
+        advance = m_font2->get_advance() / 64;
+        std::cout << advance << '\n';
+        i += advance;
     }
 }

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <AB/Assert.h>
 #include <LibGfx/Font2.h>
+#include "Font2.h"
 
 #define CHECK(x) ASSERT(x == 0)
 
@@ -12,11 +13,11 @@ Font2::Font2(int target_height)
     m_error = FT_New_Face( m_font_library, "/usr/share/fonts/truetype/lato/Lato-Regular.ttf", 0, &m_face );
     CHECK(m_error);
 
-    m_error = FT_Set_Pixel_Sizes(m_face, 0, 20);
+    m_error = FT_Set_Pixel_Sizes(m_face, 0, 80);
     CHECK(m_error);
 
     m_slot = m_face->glyph;
-
+    
     m_angle = 0;
     m_matrix.xx = (FT_Fixed)( cos( m_angle ) * 0x10000L );
     m_matrix.xy = (FT_Fixed)(-sin( m_angle ) * 0x10000L );
@@ -69,7 +70,12 @@ int Font2::get_bitmap_pitch()
     return m_slot->bitmap.pitch;
 }
 
-unsigned char* Font2::get_bitmap()
+int Font2::get_advance()
+{
+    return m_face->glyph->metrics.horiAdvance;
+}
+
+unsigned char *Font2::get_bitmap()
 {
     return m_slot->bitmap.buffer;
 }

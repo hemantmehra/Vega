@@ -15,7 +15,8 @@ public:
     int get_bitmap_rows();
     int get_bitmap_width();
     int get_bitmap_pitch();
-
+    int get_advance();
+    
     void load_text(std::string text);
     void draw_bitmap( FT_Bitmap*  bitmap,
              FT_Int      x,
