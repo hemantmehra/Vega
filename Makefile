@@ -17,7 +17,7 @@ CXX           = g++
 DEFINES       = -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -O2 -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -O2 -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I. -I. -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
+INCPATH       = -I. -I. -I/usr/include/freetype2 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
 QMAKE         = /usr/lib/qt5/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -40,7 +40,7 @@ DISTNAME      = Vega1.0.0
 DISTDIR = /home/hemant/repos/Vega/build/Vega1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-O1
-LIBS          = $(SUBLIBS) /usr/lib/x86_64-linux-gnu/libQt5Widgets.so /usr/lib/x86_64-linux-gnu/libQt5Gui.so /usr/lib/x86_64-linux-gnu/libQt5Core.so -lGL -lpthread   
+LIBS          = $(SUBLIBS) -L/usr/local/lib -lfreetype -lm /usr/lib/x86_64-linux-gnu/libQt5Widgets.so /usr/lib/x86_64-linux-gnu/libQt5Gui.so /usr/lib/x86_64-linux-gnu/libQt5Core.so -lGL -lpthread   
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -55,11 +55,13 @@ OBJECTS_DIR   = build/
 SOURCES       = main.cpp \
 		WebView.cpp \
 		LibGfx/Painter.cpp \
-		LibGfx/Font.cpp 
+		LibGfx/Font.cpp \
+		LibGfx/Font2.cpp 
 OBJECTS       = build/main.o \
 		build/WebView.o \
 		build/Painter.o \
-		build/Font.o
+		build/Font.o \
+		build/Font2.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -140,7 +142,8 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		Vega.pro  main.cpp \
 		WebView.cpp \
 		LibGfx/Painter.cpp \
-		LibGfx/Font.cpp
+		LibGfx/Font.cpp \
+		LibGfx/Font2.cpp
 QMAKE_TARGET  = Vega
 DESTDIR       = 
 TARGET        = Vega
@@ -324,7 +327,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp WebView.cpp LibGfx/Painter.cpp LibGfx/Font.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp WebView.cpp LibGfx/Painter.cpp LibGfx/Font.cpp LibGfx/Font2.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -376,20 +379,26 @@ compiler_clean: compiler_moc_predefs_clean
 
 build/main.o: main.cpp WebView.h \
 		LibGfx/Painter.h \
-		LibGfx/Font.h
+		LibGfx/Font.h \
+		LibGfx/Font2.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/main.o main.cpp
 
 build/WebView.o: WebView.cpp WebView.h \
 		LibGfx/Painter.h \
-		LibGfx/Font.h
+		LibGfx/Font.h \
+		LibGfx/Font2.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/WebView.o WebView.cpp
 
 build/Painter.o: LibGfx/Painter.cpp LibGfx/Painter.h \
-		LibGfx/Font.h
+		LibGfx/Font.h \
+		LibGfx/Font2.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/Painter.o LibGfx/Painter.cpp
 
 build/Font.o: LibGfx/Font.cpp LibGfx/Font.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/Font.o LibGfx/Font.cpp
+
+build/Font2.o: LibGfx/Font2.cpp LibGfx/Font2.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/Font2.o LibGfx/Font2.cpp
 
 ####### Install
 

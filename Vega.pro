@@ -4,9 +4,10 @@
 
 TEMPLATE = app
 TARGET = Vega
-INCLUDEPATH += .
+INCLUDEPATH += . /usr/include/freetype2
 QT += gui widgets
 OBJECTS_DIR = build
+LIBS+= -L/usr/local/lib -lfreetype -lm
 
 create.commands = $(MKDIR) build
 
@@ -21,4 +22,5 @@ create.commands = $(MKDIR) build
 SOURCES += main.cpp \
 		   WebView.cpp \
 		   LibGfx/Painter.cpp \
-		   LibGfx/Font.cpp
+		   LibGfx/Font.cpp \
+		   LibGfx/Font2.cpp

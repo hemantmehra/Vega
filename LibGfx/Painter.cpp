@@ -1,9 +1,11 @@
 #include <cmath>
 #include <LibGfx/Painter.h>
+#include <iostream>
 
 Painter::Painter(uint8_t *bitmap, size_t width, size_t height, size_t pixelWidth)
     : m_bitmap(bitmap), m_width(width), m_height(height), m_pixelWidth(pixelWidth)
 {
+    m_font2 = new Font2(100);
 }
 
 void Painter::paint()
@@ -14,6 +16,8 @@ void Painter::paint()
     draw_line(200, 400, 30, 400);
     draw_line(30, 400, 30, 40);
     draw_string("Hello World!", 100, 100);
+
+    draw_char2('A', 500, 500);
 }
 
 void Painter::clear()
@@ -126,6 +130,31 @@ void Painter::draw_char(uint8_t ch, size_t x, size_t y)
             }
         }
     }
+}
+
+void Painter::draw_char2(char ch, size_t x, size_t y)
+{
+    m_font2->load_char(ch);
+    auto height = m_font2->get_bitmap_rows();
+    auto width =  m_font2->get_bitmap_width();
+    unsigned char *bitmap = m_font2->get_bitmap();
+
+    for (size_t i = 0; i < width; i++)
+    {
+        for (size_t j = 0; j < height; j++)
+        {
+                std::cout << (int) bitmap[j + width + i] << " ";
+            if (bitmap[j + width + i])
+            {
+                size_t where = ((y + i)*m_width + (x + j)) * m_pixelWidth; 
+                m_bitmap[where] = bitmap[j + width + i];
+                m_bitmap[where + 1] = 0;
+                m_bitmap[where + 2] = 0;
+            }
+        }
+            std::cout << "\n";
+    }
+
 }
 
 void Painter::draw_string(std::string s, size_t x, size_t y)
