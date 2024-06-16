@@ -5,7 +5,7 @@
 Painter::Painter(uint8_t *bitmap, size_t width, size_t height, size_t pixelWidth)
     : m_bitmap(bitmap), m_width(width), m_height(height), m_pixelWidth(pixelWidth)
 {
-    m_font = new Font(40);
+    m_font = new Font("Lato-Regular", 40);
 }
 
 void Painter::set_color(uint8_t r, uint8_t g, uint8_t b)
@@ -28,14 +28,16 @@ void Painter::paint()
     int x = 0, y = 0;
     // draw_line(x, y, x + 100, y);
     // draw_line(x, y, x, y + 100);
-    m_font = new Font(40);
+    m_font = new Font("Lato-Regular", 40);
     draw_text("Hello World!", x, y);
-    m_font = new Font(50);
+    x += m_last_drawn_text_length;
+    m_font = new Font("Lato-Italic", 40);
     set_color(200, 100, 150);
-    draw_text("0x1234", 100, 100);
-    m_font = new Font(30);
-    set_color(100, 200, 150);
-    draw_text("jgyq", 200, 200);
+    draw_text("0x1234", x, y);
+    x += m_last_drawn_text_length;
+    m_font = new Font("Lato-Regular", 40);
+    set_color(0, 0, 0);
+    draw_text("jgyq", x, y);
     // int bbox_ymax = m_font->get_bbox_ymax();
     // draw_line(x, y + bbox_ymax, x + 200, y + bbox_ymax);
     // std::cout << m_font->get_font_height() << '\n';
@@ -203,6 +205,7 @@ void Painter::draw_string(std::string s, size_t x, size_t y)
 
 void Painter::draw_text(std::string s, size_t x, size_t y)
 {
+    m_last_drawn_text_length = 0;
     size_t i = x;
     size_t j = y;
     int advance;
@@ -212,5 +215,6 @@ void Painter::draw_text(std::string s, size_t x, size_t y)
         advance = m_font->get_advance();
         // std::cout << advance << '\n';
         i += advance;
+        m_last_drawn_text_length += (size_t) advance;
     }
 }

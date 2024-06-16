@@ -7,7 +7,7 @@
 class Font
 {
 public:
-    Font(int target_height);
+    Font(std::string font_name, int target_height);
     ~Font();
     void load_char(char ch);
     void advance_pen();

@@ -5,12 +5,17 @@
 
 #define CHECK(x) ASSERT(x == 0)
 
-Font::Font(int height)
+Font::Font(std::string font_name, int height)
 {
+    std::string font_dir = "/usr/share/fonts/truetype/lato/";
+    std::string font_file_extenstion = ".ttf";
+    std::string font_file_path = font_dir + font_name + font_file_extenstion;
+    // std::cout << font_file_path << std::endl;
+
     m_error = FT_Init_FreeType( &m_font_library );
     CHECK(m_error);
 
-    m_error = FT_New_Face( m_font_library, "/usr/share/fonts/truetype/lato/Lato-Regular.ttf", 0, &m_face );
+    m_error = FT_New_Face( m_font_library, font_file_path.c_str(), 0, &m_face );
     CHECK(m_error);
 
     m_height = height;

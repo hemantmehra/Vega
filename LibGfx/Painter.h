@@ -37,4 +37,5 @@ private:
     BitmapFont m_bitmap_font;
     Font* m_font;
     Color m_color;
+    size_t m_last_drawn_text_length;
 };
