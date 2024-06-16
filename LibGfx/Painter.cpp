@@ -5,7 +5,7 @@
 Painter::Painter(uint8_t *bitmap, size_t width, size_t height, size_t pixelWidth)
     : m_bitmap(bitmap), m_width(width), m_height(height), m_pixelWidth(pixelWidth)
 {
-    m_font = new Font(24);
+    m_font = new Font(40);
 }
 
 void Painter::set_color(uint8_t r, uint8_t g, uint8_t b)
@@ -26,10 +26,16 @@ void Painter::paint()
     set_color(0, 0, 0);
 
     int x = 0, y = 0;
-    draw_line(x, y, x + 100, y);
-    draw_line(x, y, x, y + 100);
-    // draw_char2('q', x, y);
-    draw_string2("Hello World!", x, y);
+    // draw_line(x, y, x + 100, y);
+    // draw_line(x, y, x, y + 100);
+    m_font = new Font(40);
+    draw_text("Hello World!", x, y);
+    m_font = new Font(50);
+    set_color(200, 100, 150);
+    draw_text("0x1234", 100, 100);
+    m_font = new Font(30);
+    set_color(100, 200, 150);
+    draw_text("jgyq", 200, 200);
     // int bbox_ymax = m_font->get_bbox_ymax();
     // draw_line(x, y + bbox_ymax, x + 200, y + bbox_ymax);
     // std::cout << m_font->get_font_height() << '\n';
@@ -161,24 +167,27 @@ void Painter::draw_char2(char ch, size_t x, size_t y)
     // std::cout << "CHAR: " << ch << " X_OFF" << x_off << '\n';
     // std::cout << "CHAR: " << ch << " Y_OFF" << y_off << '\n';
 
+    // draw_line(x, y + font->get_bbox_ymax() + 2, x + font->get_advance(), y + font->get_bbox_ymax() + 2);
     for (int i = 0; i < rows; i++)
     {
         int row_offset = y + i + y_off;
         for (int j = 0; j < width; j++)
         {
             unsigned char p = bitmap [i * pitch + j];
+            size_t where = ((row_offset)*m_width + (x + j + x_off)) * m_pixelWidth;
             if (p) {
-                size_t where = ((row_offset)*m_width + (x + j + x_off)) * m_pixelWidth;
                 m_bitmap[where] = m_color.r;
                 m_bitmap[where + 1] = m_color.g;
                 m_bitmap[where + 2] = m_color.b;
             }
-                // std::cout << (int) p << " ";
-        }
-            // std::cout << "\n";
-    }
 
-    // draw_line(x, y + y_off, x + width, y + y_off);
+            else {
+                m_bitmap[where] = 255;
+                m_bitmap[where + 1] = 255;
+                m_bitmap[where + 2] = 255;
+            }
+        }
+    }
 }
 
 void Painter::draw_string(std::string s, size_t x, size_t y)
@@ -192,7 +201,7 @@ void Painter::draw_string(std::string s, size_t x, size_t y)
     }
 }
 
-void Painter::draw_string2(std::string s, size_t x, size_t y)
+void Painter::draw_text(std::string s, size_t x, size_t y)
 {
     size_t i = x;
     size_t j = y;

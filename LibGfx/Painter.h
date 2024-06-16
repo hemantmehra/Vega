@@ -23,7 +23,7 @@ public:
     void draw_char(uint8_t ch, size_t x, size_t y);
     void draw_string(std::string s, size_t x, size_t y);
     void draw_char2(char ch, size_t x, size_t y);
-    void draw_string2(std::string s, size_t x, size_t y);
+    void draw_text(std::string s, size_t x, size_t y);
     void set_color(uint8_t r, uint8_t g, uint8_t b);
 
 private:
