@@ -3,8 +3,8 @@
 #include <cstring>
 #include <math.h>
 #include <string>
+#include <LibGfx/BitmapFont.h>
 #include <LibGfx/Font.h>
-#include <LibGfx/Font2.h>
 
 struct Color
 {
@@ -34,7 +34,7 @@ private:
     size_t m_width;
     size_t m_height;
     size_t m_pixelWidth;
-    Font m_font;
-    Font2* m_font2;
+    BitmapFont m_bitmap_font;
+    Font* m_font;
     Color m_color;
 };

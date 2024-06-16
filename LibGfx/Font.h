@@ -1,38 +1,39 @@
 #pragma once
-#include <cstdint>
-#include <cstring>
-
-struct FontFileHeader
-{
-    char magic[4];
-    uint8_t glyph_width;
-    uint8_t glyph_height;
-    uint8_t type;
-    uint8_t is_variable_width;
-    uint8_t glyph_spacing;
-    uint8_t unused[5];
-    char name[64];
-}__attribute__ ((packed));
+#include <ft2build.h>
+#include <cmath>
+#include <string>
+#include FT_FREETYPE_H
 
 class Font
 {
 public:
-    Font();
+    Font(int target_height);
     ~Font();
-
-    uint8_t glyph_width();
-    uint8_t glyph_height();
-    uint8_t type();
-    uint8_t is_variable_width();
-    uint8_t glyph_spacing();
-    size_t bytes_per_glyph();
-    size_t char_width(uint8_t ch);
-    unsigned int* get_bitmap(uint8_t ch);
+    void load_char(char ch);
+    void advance_pen();
+    unsigned char* get_bitmap();
+    int get_bitmap_rows();
+    int get_bitmap_width();
+    int get_bitmap_pitch();
+    int get_advance();
+    int get_XOff();
+    int get_YOff();
+    int get_bbox_ymax();
+    int get_font_height();
+    int get_font_ascender();
+    
+    void load_text(std::string text);
+    void draw_bitmap( FT_Bitmap*  bitmap,
+             FT_Int      x,
+             FT_Int      y);
 
 private:
-    char *m_data;
-    const FontFileHeader *m_header;
-    unsigned int *m_rows;
-    uint8_t *m_widths; 
-    size_t m_bytes_per_glyph;
+    FT_Library m_font_library;
+    FT_Face m_face;
+    FT_GlyphSlot m_slot;
+    FT_Matrix m_matrix;
+    FT_Vector m_pen;
+    FT_Error m_error;
+    double m_angle;
+    int m_height;
 };

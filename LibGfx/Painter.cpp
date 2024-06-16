@@ -5,7 +5,7 @@
 Painter::Painter(uint8_t *bitmap, size_t width, size_t height, size_t pixelWidth)
     : m_bitmap(bitmap), m_width(width), m_height(height), m_pixelWidth(pixelWidth)
 {
-    m_font2 = new Font2(24);
+    m_font = new Font(24);
 }
 
 void Painter::set_color(uint8_t r, uint8_t g, uint8_t b)
@@ -30,9 +30,9 @@ void Painter::paint()
     draw_line(x, y, x, y + 100);
     // draw_char2('q', x, y);
     draw_string2("Hello World!", x, y);
-    // int bbox_ymax = m_font2->get_bbox_ymax();
+    // int bbox_ymax = m_font->get_bbox_ymax();
     // draw_line(x, y + bbox_ymax, x + 200, y + bbox_ymax);
-    // std::cout << m_font2->get_font_height() << '\n';
+    // std::cout << m_font->get_font_height() << '\n';
 }
 
 void Painter::clear()
@@ -131,10 +131,10 @@ void Painter::paintLineHigh(size_t x0, size_t y0, size_t x1, size_t y1)
 
 void Painter::draw_char(uint8_t ch, size_t x, size_t y)
 {
-    auto bitmap = m_font.get_bitmap(ch);
-    for (size_t i = 0; i < m_font.glyph_height(); i++)
+    auto bitmap = m_bitmap_font.get_bitmap(ch);
+    for (size_t i = 0; i < m_bitmap_font.glyph_height(); i++)
     {
-        for (size_t j = 0; j < m_font.char_width(ch); j++)
+        for (size_t j = 0; j < m_bitmap_font.char_width(ch); j++)
         {
             if (bitmap[i] & (1 << j))
             {
@@ -149,14 +149,14 @@ void Painter::draw_char(uint8_t ch, size_t x, size_t y)
 
 void Painter::draw_char2(char ch, size_t x, size_t y)
 {
-    y += m_font2->get_font_ascender() - m_font2->get_bbox_ymax();
-    m_font2->load_char(ch);
-    auto rows = m_font2->get_bitmap_rows();
-    auto width =  m_font2->get_bitmap_width();
-    auto pitch = m_font2->get_bitmap_pitch();
-    unsigned char *bitmap = m_font2->get_bitmap();
-    int x_off = m_font2->get_XOff();
-    int y_off = m_font2->get_YOff();
+    y += m_font->get_font_ascender() - m_font->get_bbox_ymax();
+    m_font->load_char(ch);
+    auto rows = m_font->get_bitmap_rows();
+    auto width =  m_font->get_bitmap_width();
+    auto pitch = m_font->get_bitmap_pitch();
+    unsigned char *bitmap = m_font->get_bitmap();
+    int x_off = m_font->get_XOff();
+    int y_off = m_font->get_YOff();
     // std::cout << ch << '\n';
     // std::cout << "CHAR: " << ch << " X_OFF" << x_off << '\n';
     // std::cout << "CHAR: " << ch << " Y_OFF" << y_off << '\n';
@@ -188,7 +188,7 @@ void Painter::draw_string(std::string s, size_t x, size_t y)
     for (char ch : s)
     {
         draw_char(ch, i, j);
-        i += m_font.char_width(ch) + 1;
+        i += m_bitmap_font.char_width(ch) + 1;
     }
 }
 
@@ -200,7 +200,7 @@ void Painter::draw_string2(std::string s, size_t x, size_t y)
     for (char ch : s)
     {
         draw_char2(ch, i, j);
-        advance = m_font2->get_advance();
+        advance = m_font->get_advance();
         // std::cout << advance << '\n';
         i += advance;
     }

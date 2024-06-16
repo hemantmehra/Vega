@@ -22,5 +22,5 @@ create.commands = $(MKDIR) build
 SOURCES += main.cpp \
 		   WebView.cpp \
 		   LibGfx/Painter.cpp \
-		   LibGfx/Font.cpp \
-		   LibGfx/Font2.cpp
+		   LibGfx/BitmapFont.cpp \
+		   LibGfx/Font.cpp
