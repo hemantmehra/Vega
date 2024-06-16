@@ -5,7 +5,7 @@
 Painter::Painter(uint8_t *bitmap, size_t width, size_t height, size_t pixelWidth)
     : m_bitmap(bitmap), m_width(width), m_height(height), m_pixelWidth(pixelWidth)
 {
-    m_font2 = new Font2(100);
+    m_font2 = new Font2(80);
 }
 
 void Painter::paint()
@@ -17,13 +17,14 @@ void Painter::paint()
     draw_line(30, 400, 30, 40);
     draw_string("Hello World!", 100, 100);
 
-    int x = 400, y = 400;
+    int x = 300, y = 300;
     draw_line(x, y, x + 100, x);
     draw_line(x, y, x, y + 100);
     // draw_char2('q', x, y);
-    draw_string2("The box", x, y);
-    int bbox_ymax = m_font2->get_bbox_ymax();
-    draw_line(x, y + bbox_ymax, x + 200, y + bbox_ymax);
+    draw_string2("The box g2", x, y);
+    // int bbox_ymax = m_font2->get_bbox_ymax();
+    // draw_line(x, y + bbox_ymax, x + 200, y + bbox_ymax);
+    // std::cout << m_font2->get_font_height() << '\n';
 }
 
 void Painter::clear()
@@ -140,6 +141,7 @@ void Painter::draw_char(uint8_t ch, size_t x, size_t y)
 
 void Painter::draw_char2(char ch, size_t x, size_t y)
 {
+    y += m_font2->get_font_ascender() - m_font2->get_bbox_ymax();
     m_font2->load_char(ch);
     auto rows = m_font2->get_bitmap_rows();
     auto width =  m_font2->get_bitmap_width();
@@ -147,8 +149,9 @@ void Painter::draw_char2(char ch, size_t x, size_t y)
     unsigned char *bitmap = m_font2->get_bitmap();
     int x_off = m_font2->get_XOff();
     int y_off = m_font2->get_YOff();
-    std::cout << "CHAR: " << ch << " X_OFF" << x_off << '\n';
-    std::cout << "CHAR: " << ch << " Y_OFF" << y_off << '\n';
+    // std::cout << ch << '\n';
+    // std::cout << "CHAR: " << ch << " X_OFF" << x_off << '\n';
+    // std::cout << "CHAR: " << ch << " Y_OFF" << y_off << '\n';
 
     for (size_t i = 0; i < rows; i++)
     {
@@ -166,6 +169,8 @@ void Painter::draw_char2(char ch, size_t x, size_t y)
         }
             // std::cout << "\n";
     }
+
+    // draw_line(x, y + y_off, x + width, y + y_off);
 }
 
 void Painter::draw_string(std::string s, size_t x, size_t y)
@@ -188,7 +193,7 @@ void Painter::draw_string2(std::string s, size_t x, size_t y)
     {
         draw_char2(ch, i, j);
         advance = m_font2->get_advance();
-        std::cout << advance << '\n';
+        // std::cout << advance << '\n';
         i += advance;
     }
 }

@@ -19,6 +19,8 @@ public:
     int get_XOff();
     int get_YOff();
     int get_bbox_ymax();
+    int get_font_height();
+    int get_font_ascender();
     
     void load_text(std::string text);
     void draw_bitmap( FT_Bitmap*  bitmap,
@@ -33,5 +35,5 @@ private:
     FT_Vector m_pen;
     FT_Error m_error;
     double m_angle;
-    int m_target_height;
+    int m_height;
 };

@@ -5,7 +5,7 @@
 
 #define CHECK(x) ASSERT(x == 0)
 
-Font2::Font2(int target_height)
+Font2::Font2(int height)
 {
     m_error = FT_Init_FreeType( &m_font_library );
     CHECK(m_error);
@@ -13,7 +13,8 @@ Font2::Font2(int target_height)
     m_error = FT_New_Face( m_font_library, "/usr/share/fonts/truetype/lato/Lato-Regular.ttf", 0, &m_face );
     CHECK(m_error);
 
-    m_error = FT_Set_Pixel_Sizes(m_face, 0, 80);
+    m_height = height;
+    m_error = FT_Set_Pixel_Sizes(m_face, 0, m_height);
     CHECK(m_error);
 
     m_slot = m_face->glyph;
@@ -24,7 +25,6 @@ Font2::Font2(int target_height)
     m_matrix.yx = (FT_Fixed)( sin( m_angle ) * 0x10000L );
     m_matrix.yy = (FT_Fixed)( cos( m_angle ) * 0x10000L );
 
-    m_target_height = target_height;
     // m_pen.x = 300 * 64;
     // m_pen.y = ( m_target_height - 200 ) * 64;
     m_pen.x = 0;
@@ -46,8 +46,8 @@ void Font2::load_char(char ch)
         std::cout << "Error Loading char!" << "\n";
         exit(0);
     }
-    std::cout << "BITMAP LEFT " << m_slot->bitmap_left << '\n';
-    std::cout << "BITMAP TOP " << m_slot->bitmap_top << '\n';
+    // std::cout << "BITMAP LEFT " << m_slot->bitmap_left << '\n';
+    // std::cout << "BITMAP TOP " << m_slot->bitmap_top << '\n';
 }
 
 void Font2::advance_pen()
@@ -100,6 +100,16 @@ int Font2::get_bbox_ymax()
 unsigned char *Font2::get_bitmap()
 {
     return m_slot->bitmap.buffer;
+}
+
+int Font2::get_font_height()
+{
+    return (m_face->size->metrics.ascender - m_face->size->metrics.descender) >> 6;
+}
+
+int Font2::get_font_ascender()
+{
+    return (m_face->size->metrics.ascender) >> 6;
 }
 
 // void Font2::load_text(std::string text)
