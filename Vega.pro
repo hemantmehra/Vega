@@ -23,4 +23,5 @@ SOURCES += main.cpp \
 		   WebView.cpp \
 		   LibGfx/Painter.cpp \
 		   LibGfx/BitmapFont.cpp \
-		   LibGfx/Font.cpp
+		   LibGfx/Font.cpp	\
+		   Page.cpp

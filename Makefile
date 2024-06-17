@@ -56,12 +56,14 @@ SOURCES       = main.cpp \
 		WebView.cpp \
 		LibGfx/Painter.cpp \
 		LibGfx/BitmapFont.cpp \
-		LibGfx/Font.cpp 
+		LibGfx/Font.cpp \
+		Page.cpp 
 OBJECTS       = build/main.o \
 		build/WebView.o \
 		build/Painter.o \
 		build/BitmapFont.o \
-		build/Font.o
+		build/Font.o \
+		build/Page.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -143,7 +145,8 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		WebView.cpp \
 		LibGfx/Painter.cpp \
 		LibGfx/BitmapFont.cpp \
-		LibGfx/Font.cpp
+		LibGfx/Font.cpp \
+		Page.cpp
 QMAKE_TARGET  = Vega
 DESTDIR       = 
 TARGET        = Vega
@@ -327,7 +330,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp WebView.cpp LibGfx/Painter.cpp LibGfx/BitmapFont.cpp LibGfx/Font.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp WebView.cpp LibGfx/Painter.cpp LibGfx/BitmapFont.cpp LibGfx/Font.cpp Page.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -380,13 +383,15 @@ compiler_clean: compiler_moc_predefs_clean
 build/main.o: main.cpp WebView.h \
 		LibGfx/Painter.h \
 		LibGfx/BitmapFont.h \
-		LibGfx/Font.h
+		LibGfx/Font.h \
+		Page.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/main.o main.cpp
 
 build/WebView.o: WebView.cpp WebView.h \
 		LibGfx/Painter.h \
 		LibGfx/BitmapFont.h \
-		LibGfx/Font.h
+		LibGfx/Font.h \
+		Page.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/WebView.o WebView.cpp
 
 build/Painter.o: LibGfx/Painter.cpp LibGfx/Painter.h \
@@ -400,6 +405,12 @@ build/BitmapFont.o: LibGfx/BitmapFont.cpp LibGfx/BitmapFont.h
 build/Font.o: LibGfx/Font.cpp AB/Assert.h \
 		LibGfx/Font.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/Font.o LibGfx/Font.cpp
+
+build/Page.o: Page.cpp Page.h \
+		LibGfx/Painter.h \
+		LibGfx/BitmapFont.h \
+		LibGfx/Font.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/Page.o Page.cpp
 
 ####### Install
 
