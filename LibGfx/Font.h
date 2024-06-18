@@ -21,6 +21,8 @@ public:
     int get_bbox_ymax();
     int get_font_height();
     int get_font_ascender();
+    size_t width(std::string text);
+    size_t height();
     
     void load_text(std::string text);
     void draw_bitmap( FT_Bitmap*  bitmap,

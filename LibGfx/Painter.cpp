@@ -15,6 +15,16 @@ void Painter::set_color(uint8_t r, uint8_t g, uint8_t b)
     m_color.b = b;
 }
 
+void Painter::set_font(Font* font)
+{
+    m_font = font;
+}
+
+Font* Painter::get_font()
+{
+    return m_font;
+}
+
 void Painter::paint()
 {
     clear();
@@ -22,22 +32,35 @@ void Painter::paint()
     // draw_line(200, 40, 200, 400);
     // draw_line(200, 400, 30, 400);
     // draw_line(30, 400, 30, 40);
-    // draw_string("Hello World!", 100, 100);
-    set_color(0, 0, 0);
+    std::string s = "Hello World! gijq";
+    std::cout << "in paint()\n";
+    auto w = m_font->width(s);
+    auto h = m_font->height();
+    size_t x = 100;
+    size_t y = 100;
+    Point p = {x, y};
+    Size size = {w, h};
+    draw_rect(p, size);
+    draw_text(s, x, y);
+    // draw_line(x, y, x + w, y);
+    // draw_line(x+w, y, x + w, y + h);
+    // draw_line(x + w, y + h, x, y + h);
+    // draw_line(x, y + h, x, y);
+    // set_color(0, 0, 0);
 
-    int x = 0, y = 0;
+    // int x = 0, y = 0;
     // draw_line(x, y, x + 100, y);
     // draw_line(x, y, x, y + 100);
-    m_font = new Font("Lato-Regular", 40);
-    draw_text("Hello World!", x, y);
-    x += m_last_drawn_text_length;
-    m_font = new Font("Lato-Italic", 40);
-    set_color(200, 100, 150);
-    draw_text("0x1234", x, y);
-    x += m_last_drawn_text_length;
-    m_font = new Font("Lato-Regular", 40);
-    set_color(0, 0, 0);
-    draw_text("jgyq", x, y);
+    // m_font = new Font("Lato-Regular", 40);
+    // draw_text("Hello World!", x, y);
+    // x += m_last_drawn_text_length;
+    // m_font = new Font("Lato-Italic", 40);
+    // set_color(200, 100, 150);
+    // draw_text("0x1234", x, y);
+    // x += m_last_drawn_text_length;
+    // m_font = new Font("Lato-Regular", 40);
+    // set_color(0, 0, 0);
+    // draw_text("jgyq", x, y);
     // int bbox_ymax = m_font->get_bbox_ymax();
     // draw_line(x, y + bbox_ymax, x + 200, y + bbox_ymax);
     // std::cout << m_font->get_font_height() << '\n';
@@ -55,6 +78,24 @@ void Painter::clear()
             m_bitmap[where + 2] = 255;
         }
     }
+}
+
+void Painter::draw_rect(Rect rect)
+{
+    draw_line(rect.P1(), rect.P2());
+    draw_line(rect.P2(), rect.P3());
+    draw_line(rect.P3(), rect.P4());
+    draw_line(rect.P4(), rect.P1());
+}
+
+void Painter::draw_rect(Point point, Size size)
+{
+    draw_rect({point.x, point.y, point.x + size.width, point.y + size.height});
+}
+
+void Painter::draw_line(Point a, Point b)
+{
+    draw_line(a.x, a.y, b.x, b.y);
 }
 
 void Painter::draw_line(size_t x0, size_t y0, size_t x1, size_t y1)

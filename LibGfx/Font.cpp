@@ -55,6 +55,27 @@ void Font::load_char(char ch)
     // std::cout << "BITMAP TOP " << m_slot->bitmap_top << '\n';
 }
 
+size_t Font::width(std::string text)
+{
+    size_t w = 0;
+    for (auto ch : text)
+    {
+        FT_UInt gi = FT_Get_Char_Index(m_face, ch);
+        assert(gi != 0);
+        FT_Load_Glyph(m_face, gi, FT_LOAD_NO_BITMAP);
+        size_t advance = m_face->glyph->metrics.horiAdvance / 64;
+        w += advance;
+    }
+    return w;
+}
+
+size_t Font::height()
+{
+    size_t ascender = (m_face->size->metrics.ascender) >> 6;
+    size_t descender = (m_face->size->metrics.descender) >> 6;
+    return ascender - descender;
+}
+
 void Font::advance_pen()
 {
     m_pen.x += m_slot->advance.x;
