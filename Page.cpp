@@ -1,5 +1,6 @@
 #include <Page.h>
 #include <vector>
+#include <LibHTML/Layout.h>
 
 Page::Page(uint8_t *bitmap, size_t width, size_t height, size_t pixelWidth)
 {
@@ -8,22 +9,14 @@ Page::Page(uint8_t *bitmap, size_t width, size_t height, size_t pixelWidth)
 
 void Page::render()
 {
-    int line_space = 5;
-    int font_size = 40;
+    m_painter->clear();
+    m_painter->set_color(0, 0, 0);
 
-    std::vector<std::string> lines;
-    lines.push_back("Text Examples!");
-    lines.push_back("This is a line.");
-    lines.push_back("Is this a question?");
+    LayoutText *layout1 = new LayoutText("Title 1");
+    LayoutText *layout2 = new LayoutText("Sub Heading 2");
 
-    m_painter->paint();
-    // m_painter->clear();
-    // m_painter->set_color(0, 0, 0);
+    layout1->render(m_painter, {0, 0});
+    size_t height = m_painter->get_font()->height();
 
-    int y = 0;
-    for (auto s: lines)
-    {
-        // m_painter->draw_text(s, 0, y);
-        y += font_size + line_space;
-    }
+    layout2->render(m_painter, {0, height + 5});
 }

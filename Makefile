@@ -57,13 +57,15 @@ SOURCES       = main.cpp \
 		LibGfx/Painter.cpp \
 		LibGfx/BitmapFont.cpp \
 		LibGfx/Font.cpp \
-		Page.cpp 
+		Page.cpp \
+		LibHTML/Layout.cpp 
 OBJECTS       = build/main.o \
 		build/WebView.o \
 		build/Painter.o \
 		build/BitmapFont.o \
 		build/Font.o \
-		build/Page.o
+		build/Page.o \
+		build/Layout.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -146,7 +148,8 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		LibGfx/Painter.cpp \
 		LibGfx/BitmapFont.cpp \
 		LibGfx/Font.cpp \
-		Page.cpp
+		Page.cpp \
+		LibHTML/Layout.cpp
 QMAKE_TARGET  = Vega
 DESTDIR       = 
 TARGET        = Vega
@@ -330,7 +333,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp WebView.cpp LibGfx/Painter.cpp LibGfx/BitmapFont.cpp LibGfx/Font.cpp Page.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp WebView.cpp LibGfx/Painter.cpp LibGfx/BitmapFont.cpp LibGfx/Font.cpp Page.cpp LibHTML/Layout.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -409,8 +412,15 @@ build/Font.o: LibGfx/Font.cpp AB/Assert.h \
 build/Page.o: Page.cpp Page.h \
 		LibGfx/Painter.h \
 		LibGfx/BitmapFont.h \
-		LibGfx/Font.h
+		LibGfx/Font.h \
+		LibHTML/Layout.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/Page.o Page.cpp
+
+build/Layout.o: LibHTML/Layout.cpp LibHTML/Layout.h \
+		LibGfx/Painter.h \
+		LibGfx/BitmapFont.h \
+		LibGfx/Font.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/Layout.o LibHTML/Layout.cpp
 
 ####### Install
 

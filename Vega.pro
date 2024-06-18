@@ -24,4 +24,5 @@ SOURCES += main.cpp \
 		   LibGfx/Painter.cpp \
 		   LibGfx/BitmapFont.cpp \
 		   LibGfx/Font.cpp	\
-		   Page.cpp
+		   Page.cpp \
+		   LibHTML/Layout.cpp

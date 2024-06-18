@@ -27,43 +27,7 @@ Font* Painter::get_font()
 
 void Painter::paint()
 {
-    clear();
-    // draw_line(30, 40, 200, 40);
-    // draw_line(200, 40, 200, 400);
-    // draw_line(200, 400, 30, 400);
-    // draw_line(30, 400, 30, 40);
-    std::string s = "Hello World! gijq";
-    std::cout << "in paint()\n";
-    auto w = m_font->width(s);
-    auto h = m_font->height();
-    size_t x = 100;
-    size_t y = 100;
-    Point p = {x, y};
-    Size size = {w, h};
-    draw_rect(p, size);
-    draw_text(s, x, y);
-    // draw_line(x, y, x + w, y);
-    // draw_line(x+w, y, x + w, y + h);
-    // draw_line(x + w, y + h, x, y + h);
-    // draw_line(x, y + h, x, y);
-    // set_color(0, 0, 0);
-
-    // int x = 0, y = 0;
-    // draw_line(x, y, x + 100, y);
-    // draw_line(x, y, x, y + 100);
-    // m_font = new Font("Lato-Regular", 40);
-    // draw_text("Hello World!", x, y);
-    // x += m_last_drawn_text_length;
-    // m_font = new Font("Lato-Italic", 40);
-    // set_color(200, 100, 150);
-    // draw_text("0x1234", x, y);
-    // x += m_last_drawn_text_length;
-    // m_font = new Font("Lato-Regular", 40);
-    // set_color(0, 0, 0);
-    // draw_text("jgyq", x, y);
-    // int bbox_ymax = m_font->get_bbox_ymax();
-    // draw_line(x, y + bbox_ymax, x + 200, y + bbox_ymax);
-    // std::cout << m_font->get_font_height() << '\n';
+    clear(); 
 }
 
 void Painter::clear()
