@@ -7,7 +7,7 @@ class LayoutText
 {
 public:
     LayoutText(std::string text);
-    void render(Painter* painter, Point p);
+    void render(Painter* painter, Point p, size_t width);
 
 private:
     std::string m_text;

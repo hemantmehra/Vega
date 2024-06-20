@@ -12,4 +12,6 @@ public:
 
 private:
     Painter* m_painter;
+    size_t m_width;
+    size_t m_height;
 };
