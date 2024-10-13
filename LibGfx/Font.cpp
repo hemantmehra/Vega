@@ -7,7 +7,7 @@
 
 Font::Font(std::string font_name, int height)
 {
-    std::string font_dir = "/usr/share/fonts/truetype/lato/";
+    std::string font_dir = "/usr/share/fonts/truetype/ubuntu/";
     std::string font_file_extenstion = ".ttf";
     std::string font_file_path = font_dir + font_name + font_file_extenstion;
     // std::cout << font_file_path << std::endl;

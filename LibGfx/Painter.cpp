@@ -5,7 +5,7 @@
 Painter::Painter(uint8_t *bitmap, size_t width, size_t height, size_t pixelWidth)
     : m_bitmap(bitmap), m_width(width), m_height(height), m_pixelWidth(pixelWidth)
 {
-    m_font = new Font("Lato-Regular", 40);
+    m_font = new Font("Ubuntu-R", 40);
 }
 
 void Painter::set_color(uint8_t r, uint8_t g, uint8_t b)

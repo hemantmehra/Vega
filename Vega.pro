@@ -4,7 +4,7 @@
 
 TEMPLATE = app
 TARGET = Vega
-INCLUDEPATH += . /usr/include/freetype2
+INCLUDEPATH += . /usr/local/include/freetype2
 QT += gui widgets
 OBJECTS_DIR = build
 LIBS+= -L/usr/local/lib -lfreetype -lm
